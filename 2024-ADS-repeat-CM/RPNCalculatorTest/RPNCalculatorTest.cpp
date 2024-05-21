@@ -48,14 +48,36 @@ namespace RPNCalculatorTest
 
 		}
 
-		TEST_METHOD(Test)
+		TEST_METHOD(TestAddNotEqual)
 		{
 
 			RPNCalculator<int> calc;
-			calc.push(8);
+			calc.push(1);
+			calc.push(2);
+			calc.add();
+			Assert::AreNotEqual(2, *calc.value());
+
+		}
+
+		TEST_METHOD(Testsubtract)
+		{
+
+			RPNCalculator<int> calc;
 			calc.push(10);
+			calc.push(8);
 			calc.subtract();
 			Assert::AreEqual(2, *calc.value());
+
+		}
+
+		TEST_METHOD(TestsubtractNotEqual)
+		{
+
+			RPNCalculator<int> calc;
+			calc.push(10);
+			calc.push(8);
+			calc.subtract();
+			Assert::AreNotEqual(6, *calc.value());
 
 		}
 
@@ -63,12 +85,55 @@ namespace RPNCalculatorTest
 		{
 
 			RPNCalculator<int> calc;
-			calc.push(5);
 			calc.push(500);
+			calc.push(5);
 			calc.divide();
 			Assert::AreEqual(100, *calc.value());
 
 		}
+
+		TEST_METHOD(TestdivideNotEqual)
+		{
+
+			RPNCalculator<int> calc;
+			calc.push(500);
+			calc.push(5);
+			calc.divide();
+			Assert::AreNotEqual(5, *calc.value());
+
+		}
+
+		TEST_METHOD(Testmultiply)
+		{
+
+			RPNCalculator<int> calc;
+			calc.push(10);
+			calc.push(2);
+			calc.multiply();
+			Assert::AreEqual(20, *calc.value());
+
+		}
+
+		TEST_METHOD(TestmultiplyNotEqual)
+		{
+
+			RPNCalculator<int> calc;
+			calc.push(10);
+			calc.push(2);
+			calc.multiply();
+			Assert::AreNotEqual(2, *calc.value());
+
+		}
+
+	/*	TEST_METHOD(Testsquare)
+		{
+
+			RPNCalculator<int> calc;
+			calc.push(8);
+			calc.square();
+			Assert::AreEqual(64, *calc.value());
+
+		}*/
 
 		TEST_METHOD(Testnegate)
 		{
@@ -77,6 +142,16 @@ namespace RPNCalculatorTest
 			calc.push(5);
 			calc.negate();
 			Assert::AreEqual(-5, *calc.value());
+
+		}
+
+		TEST_METHOD(TestnegateNotEqual)
+		{
+
+			RPNCalculator<int> calc;
+			calc.push(5);
+			calc.negate();
+			Assert::AreNotEqual(5, *calc.value());
 
 		}
 		TEST_METHOD(TestAddoneNumber)
@@ -111,6 +186,39 @@ namespace RPNCalculatorTest
 			calc.push(5.5);
 			calc.add();
 			Assert::AreEqual(13.3, *calc.value(), 0.01);
+
+
+		}
+
+		TEST_METHOD(TestDoublesNotEqual)
+		{
+			RPNCalculator<double> calc;
+			calc.push(7.8);
+			calc.push(5.2);
+			calc.add();
+			Assert::AreNotEqual(13.3, *calc.value(), 0.01);
+
+
+		}
+
+		TEST_METHOD(TestDoublesandInt)
+		{
+			RPNCalculator<double> calc;
+			calc.push(7.8);
+			calc.push(5);
+			calc.add();
+			Assert::AreEqual(12.8, *calc.value(), 0.01);
+
+
+		}
+
+		TEST_METHOD(TestDoublesandIntNotEqual)
+		{
+			RPNCalculator<double> calc;
+			calc.push(7.8);
+			calc.push(5);
+			calc.add();
+			Assert::AreNotEqual(12, *calc.value(), 0.01);
 
 
 		}

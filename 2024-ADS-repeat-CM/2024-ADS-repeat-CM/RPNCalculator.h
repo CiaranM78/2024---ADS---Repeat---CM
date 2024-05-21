@@ -2,6 +2,7 @@
 
 
 #include <stack>
+#include "math.h"
 
 using namespace std;
 
@@ -102,7 +103,7 @@ void RPNCalculator<T>::subtract()
 	stk.pop();
 	T op2 = stk.top();
 	stk.pop();
-	stk.push(op1 - op2);
+	stk.push(op2 - op1);
 
 }
 
@@ -121,7 +122,7 @@ void RPNCalculator<T>::divide()
 	stk.pop();
 	T op2 = stk.top();
 	stk.pop();
-	stk.push(op1 / op2);
+	stk.push(op2 / op1);
 
 }
 
@@ -140,28 +141,28 @@ void RPNCalculator<T>::multiply()
 	stk.pop();
 	T op2 = stk.top();
 	stk.pop();
-	stk.push(op1 * op2);
+	stk.push(op2 * op1);
 
 }
-
-template <class T>
-void RPNCalculator<T>::square()
-{
-
-	if (size() < 2)
-	{
-		throw logic_error("Not enough Numbers to add together");
-
-	}
-
-
-	T op1 = stk.top();
-	stk.pop();
-	T op2 = stk.top();
-	stk.pop();
-	stk.push(op1 ** op2);
-
-}
+//
+//template <class T>
+//void RPNCalculator<T>::square()
+//{
+//
+//	if (size() < 2)
+//	{
+//		throw logic_error("Not enough Numbers to add together");
+//
+//	}
+//
+//
+//
+//	T op = stk.top();
+//	stk.pop();
+//	T op1 = square(op);
+//	stk.push ( op1 );
+//
+//}
 
 template <class T>
 void RPNCalculator<T>::negate()
@@ -169,6 +170,7 @@ void RPNCalculator<T>::negate()
 	if (stk.top() > 0)
 	{
 		T op = stk.top();
+		stk.pop();
 		stk.push(op - op - op);
 	}
 }
