@@ -125,7 +125,7 @@ namespace RPNCalculatorTest
 
 		}
 
-	/*	TEST_METHOD(Testsquare)
+		TEST_METHOD(Testsquare)
 		{
 
 			RPNCalculator<int> calc;
@@ -133,7 +133,7 @@ namespace RPNCalculatorTest
 			calc.square();
 			Assert::AreEqual(64, *calc.value());
 
-		}*/
+		}
 
 		TEST_METHOD(Testnegate)
 		{

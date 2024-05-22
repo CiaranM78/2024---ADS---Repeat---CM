@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include "RPNCalculator.h"
+#include "RPNLogPrint.h"
+#include "sstream"
+
 
 using namespace std;
 
@@ -22,14 +25,139 @@ cout << "Hi my name is Ciaran Murtagh and this is my Calculator that uses Revers
 
 void CalculatorOperation() {
 
-	 
-	int currentinput;
-
-	cout << "enter calculater value" << endl;
-	cin >> currentinput;
+	stack<int>  calc;
+	string input;
 
 
+	while (true) {
 
+		cout << "enter calculater value";
+		cin >> input;
+
+
+
+
+
+
+		// if statements for whatever letter input has been entered
+
+
+		   //quit
+		if (input == "q") {
+
+//shuts down calculator
+
+
+		}
+
+		//clear
+		else if (input == "c") {
+
+			while (calc.size() != 0) {
+				calc.pop();
+			}
+
+			cout << "calculator history is now cleared" <<
+
+		}
+
+		//add
+		else if (input == "t") {
+
+			if (size() < 2)
+			{
+				throw logic_error("Not enough Numbers to add together");
+
+			}
+
+			if (calc.size() != 0) {
+				calc.push();
+				calc.push();
+				calc.add();
+			}
+
+		}
+
+		//subtract
+		else if (input == "y") {
+
+			if (size() < 2)
+			{
+				throw logic_error("Not enough Numbers to subtract together");
+
+			}
+
+			if (calc.size() != 0) {
+				calc.push();
+				calc.push();
+				calc.subtract();
+			}
+		}
+
+		//divide
+		else if (input == "u") {
+
+			if (size() < 2)
+			{
+				throw logic_error("Not enough Numbers to divide together");
+
+			}
+
+			if (calc.size() != 0) {
+				calc.push();
+				calc.push();
+				calc.divide();
+			}
+		}
+
+		//multiply
+		else if (input == "i") {
+
+			if (size() < 2)
+			{
+				throw logic_error("Not enough Numbers to multiply together");
+
+			}
+
+			if (calc.size() != 0) {
+				calc.push();
+				calc.push();
+				calc.multiply();
+			}
+		}
+
+		//to the power of
+		else if (input == "s") {
+
+
+			if (calc.size() != 0) {
+				calc.push();
+				calc.push();
+				calc.square();
+			}
+		}
+
+		//turn into negetive number
+		else if (input == "n") {
+
+			if (calc.size() != 0) {
+				calc.push();
+				calc.negate();
+			}
+		}
+
+		//pop value out of stack
+		else if (input == "p") {
+
+			if (calc.size() != 0) {
+				calc.pop();
+				cout << "pop worked";
+			}
+		}
+
+		else
+			cout << "invalid input";
+	}
 }
 
 

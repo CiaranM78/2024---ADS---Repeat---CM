@@ -94,7 +94,7 @@ void RPNCalculator<T>::subtract()
 {
 	if (size() < 2)
 	{
-		throw logic_error("Not enough Numbers to add together");
+		throw logic_error("Not enough Numbers to subtract together");
 
 	}
 
@@ -113,7 +113,7 @@ void RPNCalculator<T>::divide()
 
 	if (size() < 2)
 	{
-		throw logic_error("Not enough Numbers to add together");
+		throw logic_error("Not enough Numbers to divide together");
 
 	}
 
@@ -132,7 +132,7 @@ void RPNCalculator<T>::multiply()
 
 	if (size() < 2)
 	{
-		throw logic_error("Not enough Numbers to add together");
+		throw logic_error("Not enough Numbers to multiply together");
 
 	}
 
@@ -144,25 +144,20 @@ void RPNCalculator<T>::multiply()
 	stk.push(op2 * op1);
 
 }
-//
-//template <class T>
-//void RPNCalculator<T>::square()
-//{
-//
-//	if (size() < 2)
-//	{
-//		throw logic_error("Not enough Numbers to add together");
-//
-//	}
-//
-//
-//
-//	T op = stk.top();
-//	stk.pop();
-//	T op1 = square(op);
-//	stk.push ( op1 );
-//
-//}
+
+template <class T>
+void RPNCalculator<T>::square()
+{
+
+
+
+
+
+	T op = stk.top();
+	stk.pop();
+	stk.push ( op * op );
+
+}
 
 template <class T>
 void RPNCalculator<T>::negate()
@@ -185,8 +180,6 @@ bool RPNCalculator<T>::isEmpty()
 	}
 	else
 		return false;
-
-	//return stk.size()==0;
 
 }
 
