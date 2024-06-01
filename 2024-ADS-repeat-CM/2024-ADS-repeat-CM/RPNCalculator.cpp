@@ -26,7 +26,7 @@ cout << "Hi my name is Ciaran Murtagh and this is my Calculator that uses Revers
 void CalculatorOperation() {
 
 	stack<int>  calc;
-	string input;
+	char input;
 
 
 	while (true) {
@@ -36,128 +36,169 @@ void CalculatorOperation() {
 
 
 
-
-
-
 		// if statements for whatever letter input has been entered
 
 
-		   //quit
-		if (input == "q") {
+		if (isdigit(input)) {
 
-//shuts down calculator
+			calc.push(input);
+		}
+		else {
 
+
+
+			//quit
+			if (input == 'q') {
+
+				//shuts down calculator
+
+				break;
+
+
+			}
+
+			//clear
+			else if (input == 'c') {
+
+				while (calc.size() != 0) {
+					calc.pop();
+
+					cout << "calculator history is now cleared" << endl;
+				}
+
+
+
+			}
+
+
+			//add
+			else if (input == 't') {
+
+				if (calc.size() < 2)
+				{
+					throw logic_error("Not enough Numbers to add together");
+
+				}
+
+				if (calc.size() != 0) {
+
+					int numberinputone = calc.top();
+
+					int	numberinputtwo = calc.top();
+
+					calc.push(numberinputone);
+					calc.push(numberinputtwo);
+					calc.add(numberinputone, numberinputtwo);
+				}
+
+			}
+
+			//subtract
+			else if (input == 'y') {
+
+				if (calc.size() < 2)
+				{
+					throw logic_error("Not enough Numbers to subtract together");
+
+				}
+
+				if (calc.size() != 0) {
+
+					int numberinputone = calc.top();
+
+					int	numberinputtwo = calc.top();
+
+					calc.push(numberinputone);
+					calc.push(numberinputtwo);
+					calc.subtract(numberinputone, numberinputtwo);
+				}
+			}
+
+			//divide
+			else if (input == 'y') {
+
+				if (calc.size() < 2)
+				{
+					throw logic_error("Not enough Numbers to divide together");
+
+				}
+
+				if (calc.size() != 0) {
+
+					int numberinputone = calc.top();
+
+					int	numberinputtwo = calc.top();
+
+					calc.push(numberinputone);
+					calc.push(numberinputtwo);
+					calc.divide(numberinputone, numberinputtwo);
+				}
+			}
+
+			//multiply
+			else if (input == 'i') {
+
+				if (calc.size() < 2)
+				{
+					throw logic_error("Not enough Numbers to multiply together");
+
+				}
+
+				if (calc.size() != 0) {
+
+					int numberinputone = calc.top();
+
+					int	numberinputtwo = calc.top();
+
+					calc.push(numberinputone);
+					calc.push(numberinputtwo);
+					calc.multiply(numberinputone, numberinputtwo);
+				}
+			}
+
+			//to the power of
+			else if (input == 's') {
+
+
+				if (calc.size() != 0) {
+
+					int numberinputone = calc.top();
+
+					int	numberinputtwo = calc.top();
+
+					calc.push(numberinputone);
+					calc.push(numberinputtwo);
+					calc.square(numberinputone, numberinputtwo);
+				}
+			}
+
+			//turn into negetive number
+			else if (input == 'n') {
+
+				if (calc.size() != 0) {
+
+					int negatenumber = calc.top();
+
+					calc.push(negatenumber);
+					calc.negate(negatenumber);
+				}
+			}
+
+			//pop value out of stack
+			else if (input == 'p') {
+
+				if (calc.size() != 0) {
+					calc.pop();
+					cout << "pop worked";
+				}
+			}
+			else
+				cout << "invalid input";
 
 		}
 
-		//clear
-		else if (input == "c") {
-
-			while (calc.size() != 0) {
-				calc.pop();
-			}
-
-			cout << "calculator history is now cleared" <<
-
-		}
-
-		//add
-		else if (input == "t") {
-
-			if (size() < 2)
-			{
-				throw logic_error("Not enough Numbers to add together");
-
-			}
-
-			if (calc.size() != 0) {
-				calc.push();
-				calc.push();
-				calc.add();
-			}
-
-		}
-
-		//subtract
-		else if (input == "y") {
-
-			if (size() < 2)
-			{
-				throw logic_error("Not enough Numbers to subtract together");
-
-			}
-
-			if (calc.size() != 0) {
-				calc.push();
-				calc.push();
-				calc.subtract();
-			}
-		}
-
-		//divide
-		else if (input == "u") {
-
-			if (size() < 2)
-			{
-				throw logic_error("Not enough Numbers to divide together");
-
-			}
-
-			if (calc.size() != 0) {
-				calc.push();
-				calc.push();
-				calc.divide();
-			}
-		}
-
-		//multiply
-		else if (input == "i") {
-
-			if (size() < 2)
-			{
-				throw logic_error("Not enough Numbers to multiply together");
-
-			}
-
-			if (calc.size() != 0) {
-				calc.push();
-				calc.push();
-				calc.multiply();
-			}
-		}
-
-		//to the power of
-		else if (input == "s") {
-
-
-			if (calc.size() != 0) {
-				calc.push();
-				calc.push();
-				calc.square();
-			}
-		}
-
-		//turn into negetive number
-		else if (input == "n") {
-
-			if (calc.size() != 0) {
-				calc.push();
-				calc.negate();
-			}
-		}
-
-		//pop value out of stack
-		else if (input == "p") {
-
-			if (calc.size() != 0) {
-				calc.pop();
-				cout << "pop worked";
-			}
-		}
-
-		else
-			cout << "invalid input";
 	}
+	
 }
 
 
