@@ -2,7 +2,8 @@
 
 
 #include <stack>
-#include "math.h"
+#include <math.h>
+#include <cmath>
 
 using namespace std;
 
@@ -16,7 +17,10 @@ private:
 
 public:
 
+
 	RPNCalculator();
+
+	void welcomemessage();
 
 	// pushes a new operand onto the stack
 	void push(T item);
@@ -50,7 +54,37 @@ public:
 
 	// returns the topmost value and pops it off the top
 	T pop();
+
+	T top();
+
+
+	//checks the size of the stack to see if the query is possible
+	void checkSize(const string&);
 };
+
+template <class T>
+void RPNCalculator<T>::welcomemessage() {
+
+	cout << "Hi my name is Ciaran Murtagh and this is my Calculator that uses Reverse Polish Notation or RPN for short." << endl;
+	cout << "Enter c to clear the stack." << endl;
+	cout << "t to add." << endl;
+	cout << "y to subtract." << endl;
+	cout << "u to divide." << endl;
+	cout << "i to multiply." << endl;
+	cout << "s to square." << endl;
+	cout << "n to negate." << endl;
+	cout << "p to pop current value." << endl;
+	cout << "q to quit." << endl;
+}
+
+template <class T>
+void RPNCalculator<T>::checkSize(const string& calculatorNotation)
+{
+	if (size() < 2)
+	{
+		throw logic_error("Not enough Numbers to" + calculatorNotation + "together");
+	}
+}
 
 template <class T>
 RPNCalculator<T>::RPNCalculator()
@@ -74,11 +108,7 @@ int RPNCalculator<T>::size()
 template <class T>
 void RPNCalculator<T>::add()
 {
-	if (size() < 2)
-{
-		throw logic_error("Not enough Numbers to add together");
-
-}
+	checkSize("add");
 
 
 	T op1 = stk.top();
@@ -92,11 +122,7 @@ void RPNCalculator<T>::add()
 template <class T>
 void RPNCalculator<T>::subtract()
 {
-	if (size() < 2)
-	{
-		throw logic_error("Not enough Numbers to subtract together");
-
-	}
+	checkSize("subtract");
 
 
 	T op1 = stk.top();
@@ -111,11 +137,7 @@ template <class T>
 void RPNCalculator<T>::divide()
 {
 
-	if (size() < 2)
-	{
-		throw logic_error("Not enough Numbers to divide together");
-
-	}
+	checkSize("divide");
 
 
 	T op1 = stk.top();
@@ -130,11 +152,7 @@ template <class T>
 void RPNCalculator<T>::multiply()
 {
 
-	if (size() < 2)
-	{
-		throw logic_error("Not enough Numbers to multiply together");
-
-	}
+	checkSize("multiply");
 
 
 	T op1 = stk.top();
@@ -149,14 +167,27 @@ template <class T>
 void RPNCalculator<T>::square()
 {
 
-
-
-
-
 	T op = stk.top();
 	stk.pop();
-	stk.push ( op * op );
+	T op1 = stk.top();
 
+	if (op != 1) {
+
+	int newop = pow(op, op1);
+	stk.push(newop);
+
+	}
+
+	if (op == 1) {
+		stk.pop();
+		op = 1;
+		stk.push(op);
+	}
+
+	if (op == 0 )
+	{
+		throw logic_error("0 to the power of will always be 0");
+	}
 }
 
 template <class T>
@@ -178,7 +209,6 @@ bool RPNCalculator<T>::isEmpty()
 	{
 		return true;
 	}
-	else
 		return false;
 
 }
@@ -188,7 +218,7 @@ void RPNCalculator<T>::clear()
 {
 	while (stk.size() > 0)
 	{
-		size--;
+		stk.pop();
 	}
 
 }
@@ -200,7 +230,7 @@ T* RPNCalculator<T>::value()
 		return nullptr;
 	}
 
-	else	
+		
 	return &stk.top();
 
 }
@@ -209,16 +239,30 @@ template <class T>
 T RPNCalculator<T>::pop()
 {
 
-	if (stk.top != nullptr)
+	if (isEmpty())
 	{
-		size--;
-
-
+		return 0;	
 	}
 
-
-
+	T value = stk.top();
+	stk.pop();
+	return value;
 }
+
+template <class T>
+T RPNCalculator<T>::top()
+{
+
+	if (isEmpty())
+	{
+		return 0;
+	}
+
+	T value = stk.top();
+	return value;
+}
+
+
 
 
 
