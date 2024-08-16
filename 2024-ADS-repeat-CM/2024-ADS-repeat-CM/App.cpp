@@ -1,130 +1,227 @@
 
+#include "App.h"
+#include <sstream>
 
 
-#include <iostream>
-#include "RPNCalculator.h"
-#include "RPNLogPrint.h"
-#include "sstream"
-using namespace std;
+#pragma region void apps
 
+App::App(const string& filePath)
+{
 
-using namespace std;
+	calc = new RPNCalculator<double>(filePath);
 
-void CalculatorOperation() {
+	optionsData.menuOption = InvalidInput;
 
+	optionsData.value = 0.0;
 
-	//welcomemessage();
-	RPNCalculator<int> calc;
+	optionsData.valueMessage = "X";
 
+	menuoOptionsMap = {
+		{"q",Quit},
+		{"c",Clear},
+		{"+",Plus},
+		{"-",Minus},
+		{"/",Divide},
+		{"*",Multiply},
+		{"s",Square},
+		{"^",Power},
+		{"n",Negate},
+		{"p",Pop},
+		{"l",Print}
+	};
+}
+
+void App:: printMenu() {
+
+	cout << colours.YELB << "Enter c to clear the stack." << endl
+		<< "+ to add." << endl
+		<< "- to subtract." << endl
+		<< "/ to divide." << endl
+		<< "* to multiply." << endl
+		<< "s to square." << endl
+		<< "^ to power." << endl
+		<< "n to negate." << endl
+		<< "p to pop current value." << endl
+		<< "l to print options." << endl
+		<< "q to quit." << endl << endl << colours.reset;
 	
-	char input;
+}
 
-
-	while (true) {
-
-		cout << "enter calculater value";
-		cin >> input;
+void App:: calculatorOperation() {
 
 
 
-		// if statements for whatever letter input has been entered
+	while (optionsData.menuOption != Quit) {
 
+		
 
-		if (isdigit(input)) {
+		cout << colours.CYNB << optionsData.valueMessage << " > ";
+		
+		setMenuOption();
 
-			calc.push(input);
-		}
-		else {
-
-
-
-			//quit
-			if (input == 'q') {
-
-				//shuts down calculator
-
+		switch (optionsData.menuOption)
+		{
+			case Quit:
 				break;
 
+			case Clear:
+				calc->clear();
+				break;
 
-			}
-
-			//clear
-			else if (input == 'c') {
-
-				calc.clear();
-				cout << "calculator history is now cleared" << endl;
-			}
-
-
-			//add
-			else if (input == 't') {
-
-				cout << "+" << endl;
-				calc.add();
-	
-			}
-
-			//subtract
-			else if (input == 'y') {
-
-				cout << "-" << endl;
-				calc.subtract();
-			}
-
-			//divide
-			else if (input == 'y') {
-
-				cout << "%" << endl;
-				calc.divide();
-			}
-
-			//multiply
-			else if (input == 'i') {
-
-				cout << "X" << endl;
-				calc.multiply();
-			
-			}
-
-			//to the power of
-			else if (input == 's') {
-
-				cout << "power of" << endl;
-				calc.square();
-			
-			}
-
-			//turn into negetive number
-			else if (input == 'n') {
-
-				cout << "turned last number negetive" << endl;
-				calc.negate();
-			}
-
-			//pop value out of stack
-			else if (input == 'p') {
-
-				if (calc.size() != 0) {
-					calc.pop();
-					cout << "pop worked";
+			case Plus:
+				try 
+				{
+					calc->add();
 				}
-			}
-			else
-				cout << "invalid input";
+				catch (const std::exception& e)
+				{
+					cout << colours.REDB << e.what() << endl << endl;
+				}
+				break;
 
+			case Minus:
+				try
+				{
+					calc->subtract();
+				}
+				catch (const std::exception& e)
+				{
+					cout << colours.REDB << e.what() << endl << endl;
+				}
+				break;
+
+			case Divide:
+				try
+				{
+					calc->divide();
+				}
+				catch (const std::exception& e)
+				{
+					cout << colours.REDB << e.what() << endl << endl;
+				}
+				break;
+
+			case Multiply:
+				try
+				{
+					calc->multiply();
+				}
+				catch (const std::exception& e)
+				{
+					cout << colours.REDB << e.what() << endl << endl;
+				}
+				break;
+
+			case Square:
+				try
+				{
+					calc->square();
+				}
+				catch (const std::exception& e)
+				{
+					cout << colours.REDB << e.what() << endl << endl;
+				}
+				break;
+
+			case Power:
+				try
+				{
+					calc->power();
+				}
+				catch (const std::exception& e)
+				{
+					cout << colours.REDB << e.what() << endl << endl;
+				}
+				break;
+
+			case Negate:
+				try
+				{
+					calc->negate();
+				}
+				catch (const std::exception& e)
+				{
+					cout << colours.REDB << e.what() << endl << endl;
+				}
+				break;
+
+			case Pop:
+				calc->pop();
+				break;
+
+			case Push:
+				calc->push(optionsData.value);
+				break;
+
+			case InvalidInput:
+				break;
+
+			case Print:
+				printMenu();
+				break;
 		}
-
+		
+		setValue();
 	}
 
 }
 
-
-
-
-int main()
+void App::welcomeMessage()
 {
-	CalculatorOperation();
+	cout << colours.GRNB << "Hi my name is Ciaran Murtagh and this is my Calculator that uses Reverse Polish Notation or RPN for short." << endl << endl;
+}
+
+void App::setMenuOption()
+{
+	string input;
+	cin >> input;
+
+	if (isNumber(input)) {
+		optionsData.menuOption = Push;
+		optionsData.value = stoi(input);
+		return;
+	}
+	
+
+	map<string, MenuOptions>::iterator it = menuoOptionsMap.find(input);
+
+	if (it != menuoOptionsMap.end()) {
+
+		optionsData.menuOption = it->second;
+	
+	}
+	else {
+		cout << "Invalid input. Please enter a valid command or a number." << endl;
+	}
+
+}
+
+bool App::isNumber(const string& s)
+{
+	stringstream ss(s);
+	double d;
+	return ss >> d && ss.eof();
+}
 
 
-	return 0;
+void App::setValue()
+{
+	if (calc->isEmpty())
+	{
+		optionsData.valueMessage = "X";
+	}
+	else
+	{
+		optionsData.valueMessage = to_string(calc->value());
+	}
+}
+
+#pragma endregion 
+
+
+void App::startUp()
+{
+	welcomeMessage();
+	printMenu();
+	calculatorOperation();
 }

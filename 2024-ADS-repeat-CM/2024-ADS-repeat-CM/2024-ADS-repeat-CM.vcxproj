@@ -128,9 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="RPNCalculator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
+    <ClInclude Include="MenuOptions.h" />
     <ClInclude Include="RPNCalculator.h" />
     <ClInclude Include="RPNLogPrint.h" />
   </ItemGroup>
