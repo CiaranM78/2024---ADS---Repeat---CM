@@ -40,210 +40,166 @@ namespace RPNCalculatorTest
 
 #pragma region testsetup/cleanup
 
-
-		TEST_METHOD_INITIALIZE(settinguptests) {
+		TEST_METHOD_INITIALIZE(settingupTests) {
 		
 			calc = new RPNCalculator<double>();
 		}
 
-		TEST_METHOD_CLEANUP(clearingtestdata) {
+		TEST_METHOD_CLEANUP(clearingTestData) {
 
 			delete calc;
-
 		}
 
 #pragma endregion 
 
 #pragma region function tests
 
-		TEST_METHOD(TestPush)
+		TEST_METHOD(testPush)
 		{
-			
 			Assert::AreEqual(0, calc->size());
 			calc->push(1);
 			Assert::AreEqual(1, calc->size());
-
 		}
 
-		
-
-		TEST_METHOD(TestAdd)
+		TEST_METHOD(testAdd)
 		{
-			
 			calc->push(1);
 			calc->push(1);
 			calc->add();
 			Assert::AreEqual(2.0, calc->value());
-
 		}
 
-		TEST_METHOD(TestAddNotEqual)
+		TEST_METHOD(testAddNotEqual)
 		{
-
-			
 			calc->push(1);
 			calc->push(2);
 			calc->add();
 			Assert::AreNotEqual(2.0, calc->value());
-
 		}
 
-		TEST_METHOD(Testsubtract)
+		TEST_METHOD(testSubtract)
 		{
-
-			
-			calc->push(10);
 			calc->push(8);
+			calc->push(10);
 			calc->subtract();
 			Assert::AreEqual(2.0, calc->value());
-
 		}
 
-		TEST_METHOD(TestsubtractNotEqual)
+		TEST_METHOD(testSubtractNotEqual)
 		{
 
-			
 			calc->push(10);
 			calc->push(8);
 			calc->subtract();
 			Assert::AreNotEqual(6.0, calc->value());
-
 		}
 
-		TEST_METHOD(Testdivide)
+		TEST_METHOD(testDivide)
 		{
-
-		
-			calc->push(500);
 			calc->push(5);
+			calc->push(500);
 			calc->divide();
 			Assert::AreEqual(100.0, calc->value());
-
 		}
 
-		TEST_METHOD(TestdivideNotEqual)
+		TEST_METHOD(testDivideNotEqual)
 		{
-
-		
 			calc->push(500);
 			calc->push(5);
 			calc->divide();
 			Assert::AreNotEqual(5.0, calc->value());
-
 		}
 
-		TEST_METHOD(Testmultiply)
+		TEST_METHOD(testMultiply)
 		{
 
-			
 			calc->push(10);
 			calc->push(2);
 			calc->multiply();
 			Assert::AreEqual(20.0, calc->value());
-
 		}
 
-		TEST_METHOD(TestmultiplyNotEqual)
+		TEST_METHOD(testMultiplyNotEqual)
 		{
-
-			
 			calc->push(10);
 			calc->push(2);
 			calc->multiply();
 			Assert::AreNotEqual(2.0, calc->value());
-
 		}
 
-		TEST_METHOD(Testsquare)
+		TEST_METHOD(testSquare)
 		{
-
-			
 			calc->push(2);
 			calc->push(8);
 			calc->square();
 			Assert::AreEqual(64.0, calc->value());
-
 		}
 
-		TEST_METHOD(Testsquarebyzero)
+		TEST_METHOD(testSquarebyZero)
 		{
-
-
 			calc->push(3);
 			calc->push(0);
 			calc->square();
 			Assert::AreEqual( 0.0, calc->value());
-
 		}
 
-
-		TEST_METHOD(Testplusbynegetive)
+		TEST_METHOD(testPlusbyNegetive)
 		{
-
-
 			calc->push(-3);
 			calc->push(10);
 			calc->add();
 			Assert::AreEqual(7.0, calc->value());
-
 		}
 
-		/*TEST_METHOD(Testplusbynegetive)
+		TEST_METHOD(testPlusbyNegetiveMinus)
 		{
-
-
-			calc->push(-3);
 			calc->push(10);
-			calc->add();
-			Assert::AreEqual(7.0, calc->value());
+			calc->push(-3);
+			calc->subtract();
+			Assert::AreEqual(-13.0, calc->value());
+		}
 
-		}*/
-
-		TEST_METHOD(Testplusmultiplybynegetiveposistive)
+		TEST_METHOD(testPlusbyNegetiveMultiply)
 		{
-
-
 			calc->push(-3);
 			calc->push(10);
 			calc->multiply();
 			Assert::AreEqual(-30.0, calc->value());
-
 		}
 
-		TEST_METHOD(Testplusmultiplybynegetive)
+		TEST_METHOD(testPlusPowerbyNegetive)
 		{
-
-
-			calc->push(-3);
-			calc->push(-10);
-			calc->multiply();
-			Assert::AreEqual(30.0, calc->value());
-
-		}
-
-		TEST_METHOD(Testpluspowerbynegetive)
-		{
-
 
 			calc->push(-3);
 			calc->push(10);
 			calc->power();
-			Assert::AreEqual(30.0, calc->value());
-
-		}
-
-		TEST_METHOD(Testdividebyzero)
-		{
-
-
-			calc->push(0);
-			calc->push(0);
-			calc->divide();
 			Assert::AreEqual(0.0, calc->value());
 
 		}
 
-		TEST_METHOD(Testnegate)
+	
+
+		TEST_METHOD(testDividebyZero)
+		{
+
+			calc->push(0);
+			calc->push(0);
+			auto fnc = [this] { calc->divide(); };
+			Assert::ExpectException<std::logic_error>(fnc, L"Cannot divide by 0.");
+
+		}
+
+		TEST_METHOD(testDividebyZeroWithPositiveDouble)
+		{
+
+			calc->push(0);
+			calc->push(20);
+			auto fnc = [this] { calc->divide(); };
+			Assert::ExpectException<std::logic_error>(fnc, L"Cannot divide by 0.");
+
+		}
+
+		TEST_METHOD(testNegate)
 		{
 
 			
@@ -253,7 +209,7 @@ namespace RPNCalculatorTest
 
 		}
 
-		TEST_METHOD(TestnegateNotEqual)
+		TEST_METHOD(testNegateNotEqual)
 		{
 
 			
@@ -263,25 +219,11 @@ namespace RPNCalculatorTest
 
 		}
 	
-		TEST_METHOD(TestHasValuesinStack)
-		{
-			
-			calc->push(7.89);
-			Assert::IsFalse(calc->isEmpty());
-			
-
-		}
-		TEST_METHOD(TestHasNOValuesinStack)
-		{
-			
-			Assert::IsTrue(calc->isEmpty());
-
-
-		}
+		
 #pragma endregion 
 
 #pragma region doubles test
-		TEST_METHOD(TestDoubles)
+		TEST_METHOD(testDoubles)
 		{
 		
 			calc->push(7.8);
@@ -292,7 +234,7 @@ namespace RPNCalculatorTest
 
 		}
 
-		TEST_METHOD(TestDoublesNotEqual)
+		TEST_METHOD(testDoublesNotEqual)
 		{
 		
 			calc->push(7.8);
@@ -303,7 +245,7 @@ namespace RPNCalculatorTest
 
 		}
 
-		TEST_METHOD(TestDoublesandInt)
+		TEST_METHOD(testDoublesandInt)
 		{
 			
 			calc->push(7.8);
@@ -314,7 +256,7 @@ namespace RPNCalculatorTest
 
 		}
 
-		TEST_METHOD(TestDoublesandIntNotEqual)
+		TEST_METHOD(testDoublesandIntNotEqual)
 		{
 		
 			calc->push(7.8);
@@ -326,10 +268,26 @@ namespace RPNCalculatorTest
 		}
 #pragma endregion 
 
-#pragma region pointers tests
+#pragma region stack tests
+
+		TEST_METHOD(testHasValuesinStack)
+		{
+
+			calc->push(7.89);
+			Assert::IsFalse(calc->isEmpty());
+
+
+		}
+		TEST_METHOD(testHasNOValuesinStack)
+		{
+
+			Assert::IsTrue(calc->isEmpty());
+
+
+		}
 	
 
-		TEST_METHOD(TestAddEmptyStack)
+		TEST_METHOD(testAddEmptyStack)
 		{
 			calc->push(12);
 			auto fnc = [this] { calc->add(); };
@@ -337,7 +295,7 @@ namespace RPNCalculatorTest
 			Assert::AreEqual(0, calc->size());
 		}
 
-		TEST_METHOD(TestAreSameInput)
+		TEST_METHOD(testAreSameInput)
 		{
 			
 			calc->push(5.5);
@@ -349,8 +307,10 @@ namespace RPNCalculatorTest
 			
 		}
 	
+#pragma endregion
 
-		TEST_METHOD(PopDoubleEmptyTest)
+#pragma region pop tests
+		TEST_METHOD(popDoubleEmptyTest)
 		{
 			RPNCalculator<double>* calc = new RPNCalculator<double>();
 
@@ -358,7 +318,7 @@ namespace RPNCalculatorTest
 
 		}
 
-		TEST_METHOD(PopIntEmptyTest)
+		TEST_METHOD(popIntEmptyTest)
 		{
 			RPNCalculator<int>* calc = new RPNCalculator<int>();
 
@@ -366,7 +326,7 @@ namespace RPNCalculatorTest
 
 		}
 
-		TEST_METHOD(PopVector3EmptyTest)
+		TEST_METHOD(popVector3EmptyTest)
 		{
 			RPNCalculator<Vector3>* calc = new RPNCalculator<Vector3>();
 			
@@ -375,42 +335,50 @@ namespace RPNCalculatorTest
 
 		}
 
+		TEST_METHOD(negateNegetiveTest)
+		{
+			calc->push(-2.0);
+			calc->negate();
+			Assert::AreEqual(2.0, calc->pop());
+
+		}
+
 #pragma endregion 
 
 #pragma region LogicTests
 
-		TEST_METHOD(TestaddLogic)
+		TEST_METHOD(testaddLogic)
 		{
 		
 			auto fnc = [this] { calc->add(); };
 			Assert::ExpectException<std::logic_error>(fnc, L"Not enough Numbers to add together");
 		}
 
-		TEST_METHOD(TestSubtractLogic)
+		TEST_METHOD(testSubtractLogic)
 		{
 			auto fnc = [this] { calc->subtract(); };
 			Assert::ExpectException<std::logic_error>(fnc, L"Not enough Numbers to subtract together");
 		}
 
-		TEST_METHOD(TestmultiplyLogic)
+		TEST_METHOD(testmultiplyLogic)
 		{
 			auto fnc = [this] { calc->multiply(); }; 
 			Assert::ExpectException<std::logic_error>(fnc, L"Not enough Numbers to multiply together");
 		}
 
-		TEST_METHOD(TestdivideLogic)
+		TEST_METHOD(testdivideLogic)
 		{
 			auto fnc = [this] { calc->divide(); };  
 			Assert::ExpectException<std::logic_error>(fnc, L"Not enough Numbers to divide together");
 		}
 
-		TEST_METHOD(TestsquareLogic)
+		TEST_METHOD(testsquareLogic)
 		{
 			auto fnc = [this] { calc->square(); };
 			Assert::ExpectException<std::logic_error>(fnc, L"Cannot access top element from an empty stack.");
 		}
 
-		TEST_METHOD(TestnegateLogic)
+		TEST_METHOD(testnegateLogic)
 		{
 			auto fnc = [this] { calc->negate(); };
 			Assert::ExpectException<std::logic_error>(fnc, L"Cannot access top element from an empty stack.");
