@@ -32,9 +32,6 @@
     <ClInclude Include="RPNCalculator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPNLogPrint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MenuOptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>

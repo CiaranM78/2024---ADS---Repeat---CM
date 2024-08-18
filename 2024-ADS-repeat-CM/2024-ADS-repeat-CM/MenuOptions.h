@@ -1,5 +1,6 @@
 #pragma once
 
+//enum for menu options
 enum MenuOptions 
 { 
 	Quit,

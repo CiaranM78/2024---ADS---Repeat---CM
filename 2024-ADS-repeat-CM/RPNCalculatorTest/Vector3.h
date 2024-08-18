@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include <cmath>
+#include <string>
+
+//operater overload https://learn.microsoft.com/en-us/cpp/cpp/operator-overloading?view=msvc-170
 
 using namespace std;
 
@@ -17,10 +20,11 @@ using namespace std;
         // Parameterized constructor
         Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 
-        // Overload the << operator for Vector3
-        friend ostream& operator<<(std::ostream& os, const Vector3& v);
 
-        bool operator==(const Vector3& other) const;
+       friend bool operator==(const Vector3& lhs, const Vector3& rhs)
+{
+    return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z);
+}
 
 
     };

@@ -3,6 +3,11 @@
 #include <stack>
 #include <math.h>
 #include <cmath>
+#include <fstream>
+
+//printing code references https://cplusplus.com/reference/fstream/ofstream/ofstream/#google_vignette
+// https://bytes.com/topic/c/63964-file-creation-problem-windows-using-fstream
+
 
 using namespace std;
 
@@ -11,6 +16,7 @@ template<class T> class RPNCalculator
 private:
 
 	stack<T> stk;
+	ofstream logFile;
 
 public:
 
@@ -18,6 +24,7 @@ public:
 
 	RPNCalculator(const string& filePath);
 
+	//empty constructor for test
 	RPNCalculator();
 
 	// pushes a new operand onto the stack
@@ -56,10 +63,11 @@ public:
 	// returns the topmost value and pops it off the top
 	T pop();
 
-	
-
 	//checks the size of the stack to see if the query is possible
 	void checkSize(const string&);
+
+	//handles the printing function into a text file
+	void logOperation(const string& operation);
 
 #pragma endregion 
 
@@ -69,7 +77,8 @@ public:
 template <class T>
 RPNCalculator<T>::RPNCalculator(const string& filePath)
 {
-
+	//opens file so it can catalog calculator history
+	logFile.open(filePath, ofstream::out | ofstream::trunc);
 }
 
 template <class T>
@@ -85,13 +94,14 @@ void RPNCalculator<T>::add()
 {
 	checkSize("add");
 
-		T op1 = stk.top();
-		stk.pop();
-		T op2 = stk.top();
-		stk.pop();
-		stk.push(op1 + op2);
-	
+	T op1 = stk.top();
+	stk.pop();
+	T op2 = stk.top();
+	stk.pop();
+	stk.push(op1 + op2);
 
+	//prints the output of method into txt file
+	logOperation(to_string(op1) + " + " + to_string(op2) + " = " + to_string(op1 + op2));
 
 }
 
@@ -105,7 +115,10 @@ void RPNCalculator<T>::subtract()
 		stk.pop();
 		T op2 = stk.top();
 		stk.pop();
-		stk.push(op2 - op1);
+		stk.push(op1 - op2);
+
+		//prints the output of method into txt file
+		logOperation(to_string(op1) + " - " + to_string(op2) + " = " + to_string(op1 - op2));
 	
 }
 
@@ -120,8 +133,17 @@ void RPNCalculator<T>::divide()
 		stk.pop();
 		T op2 = stk.top();
 		stk.pop();
-		stk.push(op2 / op1);
 
+		
+		if (op2 == T{})
+		{
+			throw logic_error("Error in division.");
+		}
+
+		stk.push(op1 / op2);
+
+		//prints the output of method into txt file
+		logOperation(to_string(op1) + " / " + to_string(op2) + " = " + to_string(op1 / op2));
 }
 
 template <class T>
@@ -135,9 +157,12 @@ void RPNCalculator<T>::multiply()
 		stk.pop();
 		T op2 = stk.top();
 		stk.pop();
-		stk.push(op2 * op1);
+		stk.push(op1 * op2);
 	
+		//prints the output of method into txt file
+		logOperation(to_string(op1) + " * " + to_string(op2) + " = " + to_string(op1 * op2));
 }
+
 
 template <class T>
 void RPNCalculator<T>::square()
@@ -151,6 +176,9 @@ void RPNCalculator<T>::square()
 	stk.pop();
 	int newop = pow(op, 2);
 	stk.push(newop);
+
+	//prints the output of method into txt file
+	logOperation(to_string(op) + "^" + to_string(2) + " = " + to_string(newop));
 	
 }
 
@@ -165,6 +193,9 @@ void RPNCalculator<T>::power()
 	int newop = pow(op, op1);
 	stk.push(newop);
 
+	//prints the output of method into txt file
+	logOperation(to_string(op) + "^" + to_string(op1) + " = " + to_string(newop));
+
 }
 
 template <class T>
@@ -175,12 +206,16 @@ void RPNCalculator<T>::negate()
 		throw logic_error("Invalid operation on a empty stack.");
 	}
 
-	if (stk.top() > 0)
-	{
-		T op = stk.top();
-		stk.pop();
-		stk.push(op - op - op);
-	}
+
+	T op = stk.top();
+	stk.pop();
+	stk.push(-op);
+
+	//prints the output of method into txt file
+	logOperation("negate(" + to_string(op) + ") = " + to_string(-op));
+	
+
+	
 }
 
 #pragma  endregion 
@@ -191,6 +226,8 @@ void RPNCalculator<T>::negate()
 template <class T>
 void RPNCalculator<T>::checkSize(const string& calculatorNotation)
 {
+
+	//checks size of stack and throws logic error if it isnt big enough
 	if (size() < 2)
 	{
 		clear();
@@ -235,7 +272,8 @@ void RPNCalculator<T>::clear()
 	{
 		stk.pop();
 	}
-
+	//prints the output of method into txt file
+	logOperation("History Cleared.");
 }
 
 template <class T>
@@ -248,13 +286,11 @@ T RPNCalculator<T>::value()
 
 	T value = stk.top();
 	return value;
-
 }
 
 template <class T>
 T RPNCalculator<T>::pop()
 {
-
 	if (isEmpty())
 	{
 		return T{};
@@ -265,7 +301,14 @@ T RPNCalculator<T>::pop()
 	return value;
 }
 
-
+template <class T>
+void RPNCalculator<T>::logOperation(const string& operation)
+{
+	if (logFile.is_open())
+	{
+		logFile << operation << endl;
+	}
+}
 
 #pragma endregion 
 

@@ -54,7 +54,7 @@ void App:: calculatorOperation() {
 	while (optionsData.menuOption != Quit) {
 
 		
-
+		//prints out the x when the stack doesnt have anything in it
 		cout << colours.CYNB << optionsData.valueMessage << " > ";
 		
 		setMenuOption();
@@ -176,6 +176,10 @@ void App::setMenuOption()
 	string input;
 	cin >> input;
 
+	
+	// Convert the input to lowercase to handle case-insensitive input 
+	for (auto& c : input) c = tolower(c);
+
 	if (isNumber(input)) {
 		optionsData.menuOption = Push;
 		optionsData.value = stoi(input);
@@ -191,7 +195,10 @@ void App::setMenuOption()
 	
 	}
 	else {
-		cout << "Invalid input. Please enter a valid command or a number." << endl;
+
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << colours.REDB << "Invalid input. Please enter a valid command or a number." << endl;
 	}
 
 }
